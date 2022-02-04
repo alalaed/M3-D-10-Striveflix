@@ -1,0 +1,91 @@
+
+
+let mainUrl = "https://striveschool-api.herokuapp.com/api/movies"
+
+// Endpoints:GET /movies
+//           GET /movies/your_genre
+//           POST /movies
+//           PUT /movies/movie_id
+//           DELETE /movies/movie_id
+
+let method = "POST"
+const id = new URLSearchParams(window.location.search).get("Id")
+
+if (id) {
+    method = "PUT"
+    mainUrl = mainUrl + id
+    fetch("https://striveschool-api.herokuapp.com/api/product/" + id, {
+        headers: {
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWZhNjM5OTgyZWExZDAwMTViYjAzZTkiLCJpYXQiOjE2NDM3OTk0NTAsImV4cCI6MTY0NTAwOTA1MH0.5dZKYBo7eP4on-pcM8VC0B42JNHHlwPOAqk70FWRG1M"
+        }
+    })
+        .then(response => response.json())
+        .then(resp => {
+            console.log(resp)
+
+
+            const name2 = document.getElementById("name").value = resp.name
+            const description2 = document.getElementById("description").value = resp.description
+            const brand2 = document.getElementById("brand").value = resp.brand
+            const price2 = document.getElementById("price").value = resp.price
+            const url2 = "https://drop.ndtv.com/TECH/product_database/images/2152017124957PM_635_nokia_3310.jpeg?downsize=*:420&output-quality=80"
+
+        }).catch(e => {
+            console.log(e)
+        })
+}
+
+
+
+
+
+const update = () => {
+
+
+    const name = document.getElementById("name").value
+    const description = document.getElementById("description").value
+    const brand = document.getElementById("brand").value
+    const price = document.getElementById("price").value
+    const url = "https://drop.ndtv.com/TECH/product_database/images/2152017124957PM_635_nokia_3310.jpeg?downsize=*:420&output-quality=80"
+
+
+    fetch(mainUrl, {
+        method: method,
+        headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWZhNjM5OTgyZWExZDAwMTViYjAzZTkiLCJpYXQiOjE2NDM3OTk0NTAsImV4cCI6MTY0NTAwOTA1MH0.5dZKYBo7eP4on-pcM8VC0B42JNHHlwPOAqk70FWRG1M"
+        },
+        body: JSON.stringify({
+            name: `${name}`,
+            description: `${description}`,
+            imageUrl: `${url}`,
+            brand: `${brand}`,
+            price: `${price}`
+        })
+    }).then(data => {
+        data.json()
+
+        console.log(data)
+    })
+
+}
+
+
+const omit = () => {
+
+    fetch("https://striveschool-api.herokuapp.com/api/product/" + id, {
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWZhNjM5OTgyZWExZDAwMTViYjAzZTkiLCJpYXQiOjE2NDM3OTk0NTAsImV4cCI6MTY0NTAwOTA1MH0.5dZKYBo7eP4on-pcM8VC0B42JNHHlwPOAqk70FWRG1M"
+        }
+    })
+    window.location.assign("./")
+
+}
+
+{
+    "name": "Strive School",
+    "description": "Horror movie about coding 10 hours per day",
+    "category": "horror",
+    "imageUrl": "https://bit.ly/3cMc2IH"
+    }
